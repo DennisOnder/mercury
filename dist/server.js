@@ -13,19 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Imports
-const bodyParser = __importStar(require("body-parser"));
-const express_1 = __importDefault(require("express"));
-const MainRoutes_1 = require("./routes/MainRoutes");
-class App {
-    constructor() {
-        this.app = express_1.default();
-        this.config();
-    }
-    config() {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use('/', MainRoutes_1.mainRoutes);
-    }
-}
-exports.default = new App().app;
-//# sourceMappingURL=index.js.map
+const dotenv = __importStar(require("dotenv"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const index_1 = __importDefault(require("./index"));
+// Initialize config file
+dotenv.config();
+// Mongoose
+mongoose_1.default.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => console.log('MongoDB Connected.'));
+// Server
+index_1.default.listen(process.env.SERVER_PORT, () => console.log(`Listening at http://localhost:${process.env.SERVER_PORT}/`));
+//# sourceMappingURL=server.js.map
