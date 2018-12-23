@@ -11,15 +11,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Imports
 const express = __importStar(require("express"));
-const MainController_1 = require("../controllers/MainController");
+const AuthController_1 = require("../controllers/AuthController");
+const TestController_1 = require("../controllers/TestController");
 class MainRoutes {
     constructor() {
         this.router = express.Router();
         this.config();
     }
     config() {
-        this.router.get('/', (req, res) => {
-            MainController_1.mainController.root(req, res);
+        this.router.get('/test', (req, res) => {
+            TestController_1.testController.root(req, res);
+        });
+        this.router.post('/register', (req, res) => {
+            AuthController_1.authController.register(req, res);
         });
     }
 }

@@ -4,10 +4,10 @@
 // Imports
 import { Request, Response } from 'express';
 
-export class MainController {
+export class TestController {
   public root(req: Request, res: Response) {
     res.status(200).send('Success');
   }
 }
 
-export const mainController = new MainController();
+export const testController = new TestController();
