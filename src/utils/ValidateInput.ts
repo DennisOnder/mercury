@@ -1,11 +1,9 @@
 // tslint:disable:quotemark
-import * as Validator from 'validator';
 
-interface InterfaceUser {
-  username: string;
-  password: string;
-  confirmPassword: string;
-}
+// Imports
+import * as Validator from 'validator';
+import { InterfaceUser } from '../interfaces/InterfaceUser';
+
 class ValidateInput {
   public registration(newUser: InterfaceUser) {
     const errors: any = {};

@@ -24,7 +24,7 @@ class App {
     config() {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use('/', MainRoutes_1.mainRoutes);
+        this.app.use('/api', MainRoutes_1.mainRoutes);
     }
 }
 exports.default = new App().app;
