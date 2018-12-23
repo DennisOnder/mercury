@@ -10,24 +10,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:quotemark
 const Validator = __importStar(require("validator"));
 class ValidateInput {
-    registration(data) {
-        if (Validator.isEmpty(data.username)) {
-            this.errors.usernameEmpty = 'Username Is Required.';
+    registration(newUser) {
+        const errors = {};
+        if (Validator.isEmpty(newUser.username)) {
+            errors.usernameEmpty = 'Username Is Required.';
         }
-        if (!Validator.isLength(data.username, { min: 5, max: 16 })) {
-            this.errors.usernameLength = 'Username Length Should Be Between 5 And 16 Characters Long.';
+        if (!Validator.isLength(newUser.username, { min: 5, max: 16 })) {
+            errors.usernameLength = 'Username Length Should Be Between 5 And 16 Characters Long.';
         }
-        if (Validator.isEmpty(data.password)) {
-            this.errors.passwordEmpty = 'Password Is Required.';
+        if (Validator.isEmpty(newUser.password)) {
+            errors.passwordEmpty = 'Password Is Required.';
         }
-        if (!Validator.isLength(data.password, { min: 8, max: 32 })) {
-            this.errors.passwordLength = 'Password Length Should Be Between 8 And 32 Characters Long.';
+        if (!Validator.isLength(newUser.password, { min: 8, max: 32 })) {
+            errors.passwordLength = 'Password Length Should Be Between 8 And 32 Characters Long.';
         }
-        if (data.password !== data.confirmPassword) {
-            this.errors.passwordNotMatching = 'Passwords Are Not Matching.';
+        if (newUser.password !== newUser.confirmPassword) {
+            errors.passwordNotMatching = 'Passwords Are Not Matching.';
         }
-        if (Reflect.ownKeys(this.errors).length > 0) {
-            return this.errors;
+        if (Reflect.ownKeys(errors).length > 0) {
+            return errors;
         }
         else {
             return true;

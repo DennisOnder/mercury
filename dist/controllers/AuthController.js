@@ -6,7 +6,12 @@ const ValidateInput_1 = require("../utils/ValidateInput");
 class AuthController {
     register(req, res) {
         // Check user input
-        const validationResult = ValidateInput_1.validateInput.registration(req.body);
+        const user = {
+            confirmPassword: req.body.confirmPassword,
+            password: req.body.password,
+            username: req.body.username
+        };
+        const validationResult = ValidateInput_1.validateInput.registration(user);
         if (validationResult === true) {
             // Register a user
             return res.status(200).send('Registered!');
