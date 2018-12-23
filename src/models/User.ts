@@ -2,11 +2,16 @@
 // tslint:disable:quotemark
 
 // Imports
-import * as mongoose from 'mongoose';
+import mongoose = require('mongoose');
+import IUser = require('../interfaces/IUser');
 
-const Schema = mongoose.Schema;
+interface IUserModel extends IUser, mongoose.Document { }
 
-export const UserSchema = new Schema({
+const userSchema = new mongoose.Schema({
+  confirmPassword: {
+    required: false,
+    type: String
+  },
   password: {
     required: true,
     type: String
@@ -16,3 +21,7 @@ export const UserSchema = new Schema({
     type: String
   }
 });
+
+const User = mongoose.model<IUserModel>('User', userSchema);
+
+export = User;
