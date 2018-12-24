@@ -1,3 +1,10 @@
+# Stuff we don't want them to know
+
+# NPM Modules
 /node_modules
 
+# Production Code
+/dist
+
+# Environmental Variables
 .env
