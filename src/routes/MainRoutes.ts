@@ -18,6 +18,9 @@ class MainRoutes {
     this.router.post('/register', (req: express.Request, res: express.Response) => {
       authController.register(req, res);
     });
+    this.router.post('/login', (req: express.Request, res: express.Response) => {
+      authController.login(req, res);
+    });
   }
 }
 
