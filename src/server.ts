@@ -17,11 +17,6 @@ const http = require('http').Server(app);
 // Socket.io Server
 const io = require('socket.io')(http);
 
-// Temporary: Serve Static HTML Page for testing
-app.get('/', (req: Request, res: Response): void => {
-  res.sendFile(__dirname + '/client/index.html');
-});
-
 // Web Socket
 io.on('connection', (socket: any) => {
   console.log('Socket.io: Connection Establishd.');
