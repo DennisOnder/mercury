@@ -2,10 +2,8 @@
 
 // Imports
 import * as Validator from 'validator';
-import IUser = require('../interfaces/IUser');
-
 class ValidateInput {
-  public registration(newUser: IUser) {
+  public registration(newUser: any) {
     const errors: any = {};
     if (Validator.isEmpty(newUser.username)) {
       errors.usernameEmpty = 'Username Is Required.';

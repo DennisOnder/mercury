@@ -4,10 +4,6 @@
 // Imports
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
-    confirmPassword: {
-        required: false,
-        type: String
-    },
     password: {
         required: true,
         type: String

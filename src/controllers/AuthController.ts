@@ -6,8 +6,9 @@
 // Imports
 import * as bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
+import * as mongoose from 'mongoose';
 import IUser = require('../interfaces/IUser');
-import User = require('../models/User');
+import User from '../models/User';
 import { validateInput } from '../utils/ValidateInput';
 class AuthController {
   public register(req: Request, res: Response) {
@@ -20,8 +21,10 @@ class AuthController {
     const validationResult: any = validateInput.registration(tempUser);
     if (validationResult === true) {
       // Check for existing user
-      User.find({ username: tempUser.username })
-        .then(user => {
+      User.findOne({ username: tempUser.username }, (err, user) => {
+        if (err) {
+          throw err;
+        } else {
           if (!user) {
             // Register a user
             const newUser = new User({ password: tempUser.password, username: tempUser.username });
@@ -43,7 +46,8 @@ class AuthController {
           } else {
             return res.status(400).send('User Already Exists.');
           }
-        });
+        }
+      });
     } else {
       // Return errors
       return res.status(400).json(validationResult);

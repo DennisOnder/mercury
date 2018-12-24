@@ -19,7 +19,14 @@ const index_1 = __importDefault(require("./index"));
 // Initialize config file
 dotenv.config();
 // Mongoose
-mongoose_1.default.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => console.log('MongoDB Connected.'));
+mongoose_1.default.connect(process.env.MONGO_URI, { useNewUrlParser: true }, (err) => {
+    if (err) {
+        throw err;
+    }
+    else {
+        console.log('MongoDB Connected.');
+    }
+});
 // Server
 index_1.default.listen(process.env.SERVER_PORT, () => console.log(`Listening at http://localhost:${process.env.SERVER_PORT}/`));
 //# sourceMappingURL=server.js.map

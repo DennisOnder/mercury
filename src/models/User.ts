@@ -8,10 +8,6 @@ import IUser = require('../interfaces/IUser');
 interface IUserModel extends IUser, mongoose.Document { }
 
 const userSchema = new mongoose.Schema({
-  confirmPassword: {
-    required: false,
-    type: String
-  },
   password: {
     required: true,
     type: String

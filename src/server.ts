@@ -3,7 +3,6 @@
 
 // Imports
 import * as dotenv from 'dotenv';
-import * as express from 'express';
 import mongoose from 'mongoose';
 import app from './index';
 
@@ -11,7 +10,14 @@ import app from './index';
 dotenv.config();
 
 // Mongoose
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, (): void => console.log('MongoDB Connected.'));
+mongoose.connect(process.env.MONGO_URI,
+  { useNewUrlParser: true }, (err): void => {
+    if (err) {
+      throw err;
+    } else {
+      console.log('MongoDB Connected.');
+    }
+  });
 
 // Server
 app.listen(process.env.SERVER_PORT, () => console.log(`Listening at http://localhost:${process.env.SERVER_PORT}/`));

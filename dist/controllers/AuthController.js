@@ -10,10 +10,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // Imports
 const bcrypt = __importStar(require("bcryptjs"));
-const User = require("../models/User");
+const User_1 = __importDefault(require("../models/User"));
 const ValidateInput_1 = require("../utils/ValidateInput");
 class AuthController {
     register(req, res) {
@@ -26,31 +29,35 @@ class AuthController {
         const validationResult = ValidateInput_1.validateInput.registration(tempUser);
         if (validationResult === true) {
             // Check for existing user
-            User.find({ username: tempUser.username })
-                .then(user => {
-                if (!user) {
-                    // Register a user
-                    const newUser = new User({ password: tempUser.password, username: tempUser.username });
-                    bcrypt.genSalt(10, (err, salt) => {
-                        if (err) {
-                            throw err;
-                        }
-                        else {
-                            bcrypt.hash(newUser.password, salt, (err, hash) => {
-                                if (err) {
-                                    throw err;
-                                }
-                                else {
-                                    newUser.password = hash;
-                                    newUser.save();
-                                    return res.status(200).json(newUser);
-                                }
-                            });
-                        }
-                    });
+            User_1.default.findOne({ username: tempUser.username }, (err, user) => {
+                if (err) {
+                    throw err;
                 }
                 else {
-                    return res.status(400).send('User Already Exists.');
+                    if (!user) {
+                        // Register a user
+                        const newUser = new User_1.default({ password: tempUser.password, username: tempUser.username });
+                        bcrypt.genSalt(10, (err, salt) => {
+                            if (err) {
+                                throw err;
+                            }
+                            else {
+                                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    else {
+                                        newUser.password = hash;
+                                        newUser.save();
+                                        return res.status(200).json(newUser);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        return res.status(400).send('User Already Exists.');
+                    }
                 }
             });
         }
