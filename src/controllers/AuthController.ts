@@ -6,7 +6,6 @@
 // Imports
 import * as bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
-import * as mongoose from 'mongoose';
 import IUser = require('../interfaces/IUser');
 import User from '../models/User';
 import { validateInput } from '../utils/ValidateInput';
