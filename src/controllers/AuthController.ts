@@ -93,6 +93,13 @@ class AuthController {
       }
     });
   }
+  public current(req: Request, res: Response) {
+    const user: any = {
+      id: req.user.id,
+      username: req.user.username
+    };
+    return res.status(200).json(user);
+  }
 }
 
 export const authController = new AuthController();

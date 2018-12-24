@@ -3,6 +3,7 @@
 
 // Imports
 import * as express from 'express';
+import passport = require('passport');
 import { authController } from '../controllers/AuthController';
 import { testController } from '../controllers/TestController';
 
@@ -21,6 +22,11 @@ class MainRoutes {
     this.router.post('/login', (req: express.Request, res: express.Response) => {
       authController.login(req, res);
     });
+    this.router.get('/current',
+      passport.authenticate('jwt', { session: false }),
+      (req: express.Request, res: express.Response) => {
+        authController.current(req, res);
+      });
   }
 }
 
