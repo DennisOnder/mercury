@@ -4,6 +4,7 @@
 // Imports
 import * as bodyParser from 'body-parser';
 import express from 'express';
+import PassportJSConfig from './config/passport';
 import { mainRoutes } from './routes/MainRoutes';
 class App {
   public app: express.Application;
@@ -15,6 +16,7 @@ class App {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use('/api', mainRoutes);
+    PassportJSConfig.init(this.app);
   }
 }
 
