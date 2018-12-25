@@ -16,6 +16,7 @@
 </template>
 
 <style lang="scss">
+// Global styles
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 #app {
   width: 100%;
@@ -75,6 +76,9 @@
         color: #fff;
       }
     }
+  }
+  #dashboard {
+    background-color: #3e3e3e;
   }
 }
 </style>
