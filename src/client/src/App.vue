@@ -10,7 +10,7 @@
     </div>
     <div class="buttons">
       <button>Log In</button>
-      <button>Register</button>
+      <button>Sign Up</button>
     </div>
   </div>
 </template>
@@ -56,7 +56,7 @@
   }
   .buttons {
     position: absolute;
-    top: 400px;
+    top: 50%;
     left: 50px;
     button {
       margin: 0 10px 0 0;
