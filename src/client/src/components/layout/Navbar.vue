@@ -21,6 +21,9 @@
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   padding: 0 25px;
   z-index: 1;
+  img {
+    margin-left: 25px;
+  }
   h3 {
     margin-left: 10px;
   }
