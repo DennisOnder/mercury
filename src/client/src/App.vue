@@ -67,8 +67,5 @@
       }
     }
   }
-  #dashboard {
-    background-color: #3e3e3e;
-  }
 }
 </style>
