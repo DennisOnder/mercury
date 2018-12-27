@@ -30,3 +30,12 @@
 }
 </style>
 
+<script lang="ts">
+export default {
+  name: "Navbar",
+  data() {
+    return {};
+  }
+};
+</script>
+
