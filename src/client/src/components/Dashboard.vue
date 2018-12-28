@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import axios from "axios";
-import DashboardService from "../services/DashboardService";
+import Api from "../services/Api";
 import Navbar from "./layout/Navbar.vue";
 export default {
   name: "Dashboard",
@@ -20,12 +20,12 @@ export default {
       test: ""
     };
   },
-  async created() {
-    try {
-      this.test = await DashboardService.prototype.testApi();
-    } catch (err) {
-      console.log(err);
-    }
+  mounted() {
+    Api()
+      .get("/api/test")
+      .then(res => res.data)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   }
 };
 </script>
