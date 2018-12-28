@@ -7,8 +7,8 @@ import { Request, Response } from 'express';
 export class TestController {
   public test(req: Request, res: Response) {
     const tempTime = new Date(Date.now());
-    const currentTime = tempTime.getHours() + ':' + tempTime.getSeconds();
-    res.status(200).send(`Success: ${currentTime}`);
+    const currentTime: string = `${tempTime.getUTCHours()}:${tempTime.getUTCMinutes()} UTC.`;
+    res.status(200).send(`Status - 200, Success: ${currentTime}`);
   }
 }
 

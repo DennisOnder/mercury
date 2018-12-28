@@ -4,7 +4,6 @@
   </main>
 </template>
 
-
 <style lang="scss">
 // Global styles
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
