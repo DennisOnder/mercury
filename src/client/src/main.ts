@@ -1,4 +1,5 @@
 // tslint:disable:object-literal-sort-keys
+// tslint:disable:quotemark
 
 import Vue from "vue";
 import App from "./App.vue";
