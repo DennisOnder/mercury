@@ -1,8 +1,6 @@
 <template>
   <div id="dashboard">
     <Navbar/>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <h1>Dashboard</h1>
   </div>
 </template>
 
@@ -18,9 +16,7 @@ export default {
     Navbar
   },
   data() {
-    return {
-      test: ""
-    };
+    return {};
   },
   mounted() {
     Api()
