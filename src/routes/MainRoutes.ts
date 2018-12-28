@@ -14,7 +14,7 @@ class MainRoutes {
   }
   private config(): void {
     this.router.get('/test', (req: express.Request, res: express.Response) => {
-      testController.root(req, res);
+      testController.test(req, res);
     });
     this.router.post('/register', (req: express.Request, res: express.Response) => {
       authController.register(req, res);
