@@ -1,6 +1,12 @@
 <template>
   <div id="dashboard">
     <Navbar/>
+    <div id="chat">
+      <!-- Chat section - left hand side of the dashboard -->
+    </div>
+    <div id="charts">
+      <!-- Charts section - right hand side of the dashboard -->
+    </div>
   </div>
 </template>
 
