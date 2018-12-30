@@ -8,3 +8,6 @@
 
 # Environmental Variables
 .env
+
+# Commit script
+commit.sh
