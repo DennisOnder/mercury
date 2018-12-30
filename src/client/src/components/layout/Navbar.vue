@@ -1,7 +1,7 @@
 <template>
   <nav id="nav">
-    <img src="../../assets/logo.png" alt="Logo">
-    <h3>mercury</h3>
+    <img src="../../assets/logo.png" alt="Logo" v-on:click="backHome()">
+    <h3 v-on:click="backHome()">mercury</h3>
   </nav>
 </template>
 
@@ -23,9 +23,11 @@
   z-index: 1;
   img {
     margin-left: 25px;
+    cursor: pointer;
   }
   h3 {
     margin-left: 10px;
+    cursor: pointer;
   }
 }
 </style>
@@ -35,6 +37,11 @@ export default {
   name: "Navbar",
   data() {
     return {};
+  },
+  methods: {
+    backHome() {
+      window.location.replace('/#/');
+    }
   }
 };
 </script>
