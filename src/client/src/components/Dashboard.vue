@@ -25,6 +25,7 @@ export default {
     return {};
   },
   mounted() {
+    // Check for a valid JWT
     Api()
       .get("/api/test")
       .then(res => res.data)
