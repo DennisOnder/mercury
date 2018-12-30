@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="home">
     <div class="title">
       <h1>mercury</h1>
       <h3>crypto-currency chat app.</h3>
@@ -16,7 +16,7 @@
 </template>
 
 <style lang="scss">
-#app {
+#home {
   width: 100%;
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
