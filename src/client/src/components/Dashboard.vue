@@ -11,8 +11,8 @@
       </div>
     </div>
     <div id="messageInput">
-      <input type="text" placeholder="Message:">
-      <button>Send</button>
+      <input id="messageField" type="text" placeholder="Message:">
+      <button v-on:click="sendMessage()">Send</button>
     </div>
       <!-- Charts section - right hand side of the dashboard -->
     <div id="charts">
@@ -34,6 +34,15 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    sendMessage(): void {
+      const newMessage = {
+        name: 'Test',
+        message: 'Test Message'
+      };
+      socket.emit('newMessage', newMessage);
+    }
   },
   mounted() {
     // Check for a valid JWT

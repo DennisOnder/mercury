@@ -4,9 +4,10 @@
 
 // Imports
 import * as dotenv from 'dotenv';
-import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import app from './index';
+import IMessage from './interfaces/IMessage';
+import { validateInput } from './utils/ValidateInput';
 
 // Initialize config file
 dotenv.config();
@@ -17,11 +18,18 @@ const http = require('http').Server(app);
 // Socket.io Server
 const io = require('socket.io')(http);
 
-// Web Socket
+// Socket.io Config
 io.on('connection', (socket: any) => {
   console.log('Socket.io: Connection Establishd.');
-  socket.on('greeter', (data: any) => {
-    console.log(data);
+  socket.on('newMessage', (data: any) => {
+    const isValid = validateInput.message(data);
+    if (isValid === true) {
+      // Send the message to the database
+      console.log(data);
+    } else {
+      // Send the errors
+      console.log(isValid);
+    }
   });
 });
 

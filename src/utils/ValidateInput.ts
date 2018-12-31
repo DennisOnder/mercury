@@ -26,6 +26,17 @@ class ValidateInput {
       return true;
     }
   }
+  public message(newMessage: any) {
+    const errors: any = {};
+    if (Validator.isEmpty(newMessage.message)) {
+      errors.messageEmpty = 'Message Field Is Required.';
+    }
+    if (Reflect.ownKeys(errors).length > 0) {
+      return errors;
+    } else {
+      return true;
+    }
+  }
 }
 
 export const validateInput = new ValidateInput();

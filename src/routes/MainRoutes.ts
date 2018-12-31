@@ -26,7 +26,7 @@ class MainRoutes {
       passport.authenticate('jwt', { session: false }),
       (req: express.Request, res: express.Response) => {
         authController.current(req, res);
-      });
+    });
   }
 }
 
