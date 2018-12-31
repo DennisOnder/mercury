@@ -32,6 +32,7 @@ export default {
   components: {
     Navbar
   },
+  messageValue: '',
   data() {
     return {};
   },
@@ -39,7 +40,7 @@ export default {
     sendMessage(): void {
       const newMessage = {
         name: 'Test',
-        message: 'Test Message'
+        message: 'Test'
       };
       socket.emit('newMessage', newMessage);
     }
