@@ -11,7 +11,7 @@
       </div>
     </div>
     <div id="messageInput">
-      <input v-model="messageField.messageText" id="messageField" type="text" placeholder="Message:">
+      <input @input="saveInput" id="messageField" type="text" placeholder="Message:">
       <button v-on:click="sendMessage()">Send</button>
     </div>
     <!-- Charts section - right hand side of the dashboard -->
@@ -29,7 +29,11 @@ import io from "socket.io-client";
 const socket = io("http://localhost:8000");
 socket.on('sendMessages', (data: any): void => {
   data.forEach((message: any): void => {
-    console.log(message.name + ": " + message.message);
+    const newMessage = {
+      name: message.name,
+      message: message.message
+    };
+    console.log(newMessage);
   });
 });
 export default {
@@ -39,18 +43,21 @@ export default {
   },
   data() {
     return {
-      messageField: {
-        messageText: ''
-      }
-    };
+      messageText: '',
+      messages: []
+    }
   },
   methods: {
-    sendMessage(): void {
+    sendMessage: function() {
       const newMessage = {
         name: 'Decode the name from JWT',
-        message: 'Input field value'
+        message: this.messageText
       };
       socket.emit('newMessage', newMessage);
+    },
+    saveInput: function(e: any): void {
+      const el = e.target;
+      this.messageText = el.value;
     }
   },
   mounted() {
