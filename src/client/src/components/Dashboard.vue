@@ -27,6 +27,11 @@ import Api from "../services/Api";
 import Navbar from "./layout/Navbar.vue";
 import io from "socket.io-client";
 const socket = io("http://localhost:8000");
+socket.on('sendMessages', (data: any): void => {
+  data.forEach((message: any): void => {
+    console.log(message.name + ": " + message.message);
+  });
+});
 export default {
   name: "Dashboard",
   components: {
@@ -39,20 +44,24 @@ export default {
   methods: {
     sendMessage(): void {
       const newMessage = {
-        name: 'Test',
-        message: 'Test'
+        name: 'Test2',
+        message: 'Test2'
       };
       socket.emit('newMessage', newMessage);
     }
   },
   mounted() {
     // Check for a valid JWT
+    socket.on('dashboardConnection', (data: any): void => {
+      for(let i = 0; i < data.length; i++) {
+        console.log(`${data[i].name}: ${data[i].message}`);
+      };
+    })
     Api()
       .get("/api/test")
       .then(res => res.data)
       .then(data => console.log(data))
       .catch(err => console.log(err));
-    socket.emit("greeter", "Hello there!");
   }
 };
 </script>
