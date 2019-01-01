@@ -22,11 +22,13 @@ const io = require('socket.io')(http);
 // Socket.io Config
 io.on('connection', (socket: any) => {
   console.log('Socket.io Connection Established.');
-  Message.find()
-  .then((messages) => {
-    socket.emit('dashboardConnection', messages);
-  })
-  .catch((err) => console.log(err));
+  socket.on('dashboardConnected', () => {
+    Message.find()
+    .then((messages) => {
+      socket.emit('sendMessages', messages);
+    })
+    .catch((err) => console.log(err));
+  });
   socket.on('newMessage', (data: any) => {
     const isValid = validateInput.message(data);
     if (isValid === true) {

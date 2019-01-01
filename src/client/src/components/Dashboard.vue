@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard">
     <Navbar/>
-      <!-- Chat section - left hand side of the dashboard -->
+    <!-- Chat section - left hand side of the dashboard -->
     <div id="chat">
       <div id="messages">
         <div class="message">
@@ -11,10 +11,10 @@
       </div>
     </div>
     <div id="messageInput">
-      <input id="messageField" type="text" placeholder="Message:">
+      <input v-model="messageField.messageText" id="messageField" type="text" placeholder="Message:">
       <button v-on:click="sendMessage()">Send</button>
     </div>
-      <!-- Charts section - right hand side of the dashboard -->
+    <!-- Charts section - right hand side of the dashboard -->
     <div id="charts">
       <div id="footer"></div>
     </div>
@@ -37,31 +37,30 @@ export default {
   components: {
     Navbar
   },
-  messageValue: '',
   data() {
-    return {};
+    return {
+      messageField: {
+        messageText: ''
+      }
+    };
   },
   methods: {
     sendMessage(): void {
       const newMessage = {
-        name: 'Test2',
-        message: 'Test2'
+        name: 'Decode the name from JWT',
+        message: 'Input field value'
       };
       socket.emit('newMessage', newMessage);
     }
   },
   mounted() {
-    // Check for a valid JWT
-    socket.on('dashboardConnection', (data: any): void => {
-      for(let i = 0; i < data.length; i++) {
-        console.log(`${data[i].name}: ${data[i].message}`);
-      };
-    })
-    Api()
-      .get("/api/test")
-      .then(res => res.data)
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+  // Check for a valid JWT
+  socket.emit('dashboardConnected');
+  Api()
+    .get("/api/test")
+    .then(res => res.data)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
   }
 };
 </script>
