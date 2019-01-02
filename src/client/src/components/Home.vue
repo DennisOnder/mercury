@@ -1,6 +1,20 @@
 <template>
   <div id="home">
-    <div class="title">
+    <!-- Loader/Spinner -->
+    <div id="SpinnerWrapper">
+      <div id="Spinner">
+        <div class="container">
+          <img src="../assets/logo.png" alt="Logo">
+          <p><b>mercury</b></p>
+        </div>
+        <span>
+          <div>
+          </div>
+        </span>
+      </div>
+    </div>
+    <div id="homeContent">
+      <div class="title">
       <h1>mercury</h1>
       <h3>crypto-currency chat app.</h3>
     </div>
@@ -11,6 +25,7 @@
     <div class="buttons">
       <button v-on:click="redirectToLogin()">Log In</button>
       <button v-on:click="redirectToRegister()">Sign Up</button>
+    </div>
     </div>
   </div>
 </template>
@@ -29,6 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   .title {
     position: absolute;
     top: 50px;
@@ -76,6 +92,68 @@
       }
     }
   }
+  // Spinner
+  #SpinnerWrapper {
+    width: 100%;
+    height: 100vh;
+    #Spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #110d25;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        p {
+            color: #fff;
+            font-size: 28px;
+            margin: 0 0 0 2.5px;
+          }
+        img {
+          width: 28px;
+          height: 28px;
+          margin: 0 2.5px 0 0;
+        }
+      }
+      span {
+        width: 250px;
+        height: 7px;
+        background-color: #444;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        div {
+          width: 0;
+          height: 7px;
+          background-color: #9A1641;
+          border-radius: 10px;
+          animation: animatedSpinner 2s;
+          animation-fill-mode: forwards;
+        }
+      }
+    }
+  }
+  // Home Content
+  #homeContent {
+    opacity: 0;
+  }
+}
+@keyframes animatedSpinner {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 </style>
 
@@ -92,6 +170,13 @@ export default {
     redirectToRegister() {
       window.location.replace("/#/register");
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      // Replace with keyframes for smoothing the transition out
+      document.getElementById('homeContent').style.opacity = '1';
+      document.getElementById('Spinner').style.opacity = '0';
+    }, 2000);
   }
 };
 </script>
