@@ -1,7 +1,9 @@
 <template>
   <nav id="nav">
-    <img src="../../assets/logo.png" alt="Logo" v-on:click="backHome()">
-    <h3 v-on:click="backHome()">mercury</h3>
+    <div id="container" v-on:click="backHome()">
+      <img src="../../assets/logo.png" alt="Logo">
+      <h3>mercury</h3>
+    </div>
   </nav>
 </template>
 
@@ -21,13 +23,22 @@
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   padding: 0 25px;
   z-index: 1;
-  img {
-    margin-left: 25px;
+  #container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-  }
-  h3 {
-    margin-left: 10px;
-    cursor: pointer;
+    img {
+      width: 26px;
+      height: 26px;
+      margin-left: 25px;
+      margin-right: 2.5px;
+    }
+    h3 {
+      font-size: 26px;
+      margin-left: 2.5px;
+    }
   }
 }
 </style>
