@@ -29,11 +29,22 @@ import io from "socket.io-client";
 const socket = io("http://localhost:8000");
 socket.on('sendMessages', (data: any): void => {
   data.forEach((message: any): void => {
+    const output = document.getElementById('messages');
     const newMessage = {
       name: message.name,
       message: message.message
     };
-    console.log(newMessage);
+    const newDiv = document.createElement('div');
+    const nameParagraph = document.createElement('p');
+    const textParagraph = document.createElement('p');
+    const boldText = document.createElement('b');
+    newDiv.setAttribute('class', 'message');
+    textParagraph.textContent = newMessage.message;
+    boldText.textContent = newMessage.name;
+    nameParagraph.appendChild(boldText);
+    newDiv.appendChild(nameParagraph);
+    newDiv.appendChild(textParagraph);
+    output.appendChild(newDiv);
   });
 });
 export default {
@@ -43,8 +54,7 @@ export default {
   },
   data() {
     return {
-      messageText: '',
-      messages: []
+      messageText: ''
     }
   },
   methods: {
