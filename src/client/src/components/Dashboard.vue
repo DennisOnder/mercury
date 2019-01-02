@@ -44,6 +44,13 @@ socket.on('sendMessages', (data: any): void => {
     newDiv.appendChild(nameParagraph);
     newDiv.appendChild(textParagraph);
     output.appendChild(newDiv);
+    for (let i = 0; i < output.children.length; i++) {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      if (output.children[i].firstChild.firstChild.textContent === decoded.username) {
+        output.children[i].classList.add('userMessage');
+      }
+    }
   });
 });
 export default {
@@ -109,10 +116,18 @@ export default {
       padding: 0.75em;
       margin-bottom: 10px;
       border-radius: 5px;
+      float: left;
       p {
         margin: 5px 10px;
         color: #fff;
         font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+      }
+    }
+    .userMessage {
+      background-color: #666;
+      float: right;
+      p {
+        color: #eee;
       }
     }
     &:last-child {
