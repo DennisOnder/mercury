@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import Api from '../services/Api';
+import jwtDecode from 'jwt-decode';
 import Navbar from "./layout/Navbar.vue";
 export default {
   name: "Login",
@@ -47,7 +48,21 @@ export default {
       const el = e.target;
       this.passwordField = el.value;
     }
-  } 
+  },
+  mounted() {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      if (decoded.exp < Date.now() / 1000) {
+        localStorage.removeItem('token');
+        window.location.replace('/#/login');
+      } else {
+        window.location.replace('/#/dashboard');
+      }
+    } else {
+      window.location.replace('/#/login');
+    }
+  }
 };
 </script>
 

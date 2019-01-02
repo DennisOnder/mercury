@@ -82,6 +82,7 @@ export default {
   if (token) {
     const decoded = jwtDecode(token);
     if (decoded.exp < Date.now() / 1000) {
+      localStorage.removeItem('token');
       window.location.replace('/#/login');
     } else {
       this.username = decoded.username;

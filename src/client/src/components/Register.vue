@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import Api from '../services/Api';
+import jwtDecode from 'jwt-decode';
 import Navbar from "./layout/Navbar.vue";
 export default {
   name: "Register",
@@ -53,6 +54,18 @@ export default {
           window.location.replace('/#/login');
         })
         .catch(err => console.log(err));
+    }
+  },
+  mounted() {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      if (decoded.exp < Date.now() / 1000) {
+        localStorage.removeItem('token');
+        window.location.replace('/#/login');
+      } else {
+        window.location.replace('/#/dashboard');
+      }
     }
   }
 };
