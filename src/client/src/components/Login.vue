@@ -31,13 +31,13 @@ export default {
         password: this.passwordField
       };
       Api()
-      .post("/api/login", user)
-      .then(res => res.data)
-      .then(data => {
-        localStorage.setItem('token', data);
-        window.location.replace('/#/dashboard');
-      })
-      .catch(err => console.log(err));
+        .post("/api/login", user)
+        .then(res => res.data)
+        .then(data => {
+          localStorage.setItem('token', data);
+          window.location.replace('/#/dashboard');
+        })
+        .catch(err => console.log(err));
     },
     saveInputUsername: function(e: any): void {
       const el = e.target;

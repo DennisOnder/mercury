@@ -3,20 +3,57 @@
     <Navbar/>
     <div id="form">
       <h3>Register:</h3>
-      <input type="text" placeholder="Username:">
-      <input type="password" placeholder="Password:">
-      <input type="password" placeholder="Confirm Password:">
-      <button>Submit</button>
+      <input @input="saveInputUsername" type="text" placeholder="Username:">
+      <input @input="saveInputPassword" type="password" placeholder="Password:">
+      <input @input="saveInputConfirmPassword" type="password" placeholder="Confirm Password:">
+      <button v-on:click="registerUser()">Submit</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Api from '../services/Api';
 import Navbar from "./layout/Navbar.vue";
 export default {
   name: "Register",
   components: {
     Navbar
+  },
+  data() {
+    return {
+      usernameField: '',
+      passwordField: '',
+      confirmPasswordField: ''
+    }
+  },
+  methods: {
+    saveInputUsername: function(e: any): void {
+      const el = e.target;
+      this.usernameField = el.value;
+    },
+    saveInputPassword: function(e: any): void {
+      const el = e.target;
+      this.passwordField = el.value;
+    },
+    saveInputConfirmPassword: function(e: any): void {
+      const el = e.target;
+      this.confirmPasswordField = el.value;
+    },
+    registerUser() {
+      const user = {
+        username: this.usernameField,
+        password: this.passwordField,
+        confirmPassword: this.confirmPasswordField
+      };
+      Api()
+        .post('/api/register', user)
+        .then(res => res.data)
+        .then(data => {
+          console.log(`${data.username} registered! Redirecting to the login page.`);
+          window.location.replace('/#/login');
+        })
+        .catch(err => console.log(err));
+    }
   }
 };
 </script>
