@@ -19,6 +19,7 @@
 #home {
   width: 100%;
   height: 100vh;
+  // Image provided by fellow Redditor and amazing artist alejagalesa!
   background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
     url("../assets/background.jpg");
   background-size: cover;
