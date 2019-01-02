@@ -47,6 +47,13 @@ io.on('connection', (socket: any) => {
       console.log(isValid);
     }
   });
+  socket.on('sendMessages', () => {
+    Message.find()
+      .then((messages) => {
+        socket.emit('sendMessages', messages);
+      })
+      .catch((err) => console.log(err));
+  });
 });
 
 // Mongoose

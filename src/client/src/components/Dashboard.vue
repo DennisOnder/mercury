@@ -28,8 +28,9 @@ import Navbar from "./layout/Navbar.vue";
 import io from "socket.io-client";
 const socket = io("http://localhost:8000");
 socket.on('sendMessages', (data: any): void => {
+  const output = document.getElementById('messages');
+  output.innerHTML = '';
   data.forEach((message: any): void => {
-    const output = document.getElementById('messages');
     const newMessage = {
       name: message.name,
       message: message.message
@@ -103,6 +104,9 @@ export default {
         color: #fff;
         font-family: 'Montserrat', Arial, Helvetica, sans-serif;
       }
+    }
+    &:last-child {
+      margin-bottom: 100px;
     }
   }
 }
