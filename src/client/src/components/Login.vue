@@ -3,20 +3,51 @@
     <Navbar/>
     <div id="form">
       <h3>Log In:</h3>
-      <input type="text" placeholder="Username:">
-      <input type="password" placeholder="Password:">
-      <button>Submit</button>
+      <input @input="saveInputUsername" type="text" placeholder="Username:">
+      <input @input="saveInputPassword" type="password" placeholder="Password:">
+      <button v-on:click="loginUser()">Submit</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Api from '../services/Api';
 import Navbar from "./layout/Navbar.vue";
 export default {
   name: "Login",
   components: {
     Navbar
-  }
+  },
+  data() {
+    return {
+      usernameField: '',
+      passwordField: ''
+    }
+  },
+  methods: {
+    loginUser() {
+      const user = {
+        username: this.usernameField,
+        password: this.passwordField
+      };
+      Api()
+      .post("/api/login", user)
+      .then(res => res.data)
+      .then(data => {
+        localStorage.setItem('token', data);
+        window.location.replace('/#/dashboard');
+      })
+      .catch(err => console.log(err));
+    },
+    saveInputUsername: function(e: any): void {
+      const el = e.target;
+      this.usernameField = el.value;
+    },
+    saveInputPassword: function(e: any): void {
+      const el = e.target;
+      this.passwordField = el.value;
+    }
+  } 
 };
 </script>
 

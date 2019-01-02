@@ -23,6 +23,7 @@ import axios from "axios";
 import Api from "../services/Api";
 import Navbar from "./layout/Navbar.vue";
 import io from "socket.io-client";
+import jwtDecode from 'jwt-decode';
 const socket = io("http://localhost:8000");
 socket.on('sendMessages', (data: any): void => {
   const output = document.getElementById('messages');
@@ -52,13 +53,14 @@ export default {
   },
   data() {
     return {
-      messageText: ''
+      messageText: '',
+      username: ''
     }
   },
   methods: {
     sendMessage: function() {
       const newMessage = {
-        name: 'Decode the name from JWT',
+        name: this.username,
         message: this.messageText
       };
       socket.emit('newMessage', newMessage);
@@ -70,6 +72,17 @@ export default {
   },
   mounted() {
   // Check for a valid JWT
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded = jwtDecode(token);
+    if (decoded.exp < Date.now() / 1000) {
+      window.location.replace('/#/login');
+    } else {
+      this.username = decoded.username;
+    }
+  } else {
+    window.location.replace('/#/login');
+  }
   socket.emit('dashboardConnected');
   Api()
     .get("/api/test")

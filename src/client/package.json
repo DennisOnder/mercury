@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "jwt-decode": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
@@ -15,6 +16,7 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
+    "@types/jwt-decode": "^2.2.1",
     "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-typescript": "^3.2.0",
