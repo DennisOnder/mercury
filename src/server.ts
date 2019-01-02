@@ -37,18 +37,14 @@ io.on('connection', (socket: any) => {
         name: data.name
       });
       newMessage.save();
-      Message.find()
-      .then((messages) => {
-        socket.emit('sendMessages', messages);
-      })
-      .catch((err) => console.log(err));
+      socket.emit('sendMessages', [newMessage]);
     } else {
       // Send the errors
       console.log(isValid);
     }
   });
-  socket.on('sendMessages', () => {
-    Message.find()
+  socket.on('getMessages', () => {
+    Message.find().sort({date: 1})
       .then((messages) => {
         socket.emit('sendMessages', messages);
       })

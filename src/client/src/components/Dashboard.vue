@@ -27,7 +27,6 @@ import jwtDecode from 'jwt-decode';
 const socket = io("http://localhost:8000");
 socket.on('sendMessages', (data: any): void => {
   const output = document.getElementById('messages');
-  output.innerHTML = '';
   data.forEach((message: any): void => {
     const newMessage = {
       name: message.name,
@@ -104,10 +103,10 @@ export default {
 #chat {
   position: absolute;
   overflow-y: auto;
-  bottom: 0;
+  bottom: 10%;
   left: 0;
   width: 50%;
-  height: 90%;
+  height: 80%;
   #messages {
     margin: 0 25px;
     .message {
