@@ -4,10 +4,7 @@
     <!-- Chat section - left hand side of the dashboard -->
     <div id="chat">
       <div id="messages">
-        <div class="message">
-          <p><b>name</b></p>
-          <p>message</p>
-        </div>
+        <!-- Chat messages output -->
       </div>
     </div>
     <div id="messageInput">
