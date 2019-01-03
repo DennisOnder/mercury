@@ -22,7 +22,7 @@
 <script lang="ts">
 import axios from "axios";
 import Api from "../services/Api";
-import * as Chart from "chart.js";
+import Chart from "chart.js";
 import Keys from "../utils/Keys";
 import Navbar from "./layout/Navbar.vue";
 import io from "socket.io-client";
@@ -63,7 +63,8 @@ export default {
   data() {
     return {
       messageText: '',
-      username: ''
+      username: '',
+      cryptodata: {}
     }
   },
   methods: {
@@ -80,48 +81,62 @@ export default {
     }
   },
   mounted() {
-  // fetch(`https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=10&api_key=${Keys.apiKey}`)
-  //   .then(res => res.json())
-  //   .then(json => console.log(json))
-  //   .catch(err => console.log(err));
-  // Check for a valid JWT
-  const ctx = document.getElementById('myChart');
-  const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
+  // Get Bitcoin data 
+  fetch(`https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=10&api_key=${Keys.apiKey}`)
+    .then(res => res.json())
+    .then(json => {
+      this.cryptodata = json;
+    })
+    .catch(err => console.log(err));
+  setInterval(() => {
+    fetch(`https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=10&api_key=${Keys.apiKey}`)
+      .then(res => res.json())
+      .then(json => {
+        this.cryptodata = json;
+      })
+      .catch(err => console.log(err));
+  }, 60000);
+  // Chart setup
+  setTimeout(() => {
+    const ctx = document.getElementById('myChart');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["5 minutes ago", "4 minutes ago", "3 minutes ago", "2 minutes ago", "1 minute ago", "Current"],
+          datasets: [{
+            label: 'Bitcoin Value in $USD',
+              data: [this.cryptodata.Data[5].close, this.cryptodata.Data[4].close, this.cryptodata.Data[3].close, this.cryptodata.Data[2].close, this.cryptodata.Data[1].close, this.cryptodata.Data[0].close],
+              backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
                 'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
             yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+              ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+  }, 1000);
+  // Check for a valid JWT
   const token = localStorage.getItem('token');
   if (token) {
     const decoded = jwtDecode(token);
@@ -135,11 +150,6 @@ export default {
     window.location.replace('/#/login');
   }
   socket.emit('dashboardConnected');
-  Api()
-    .get("/api/test")
-    .then(res => res.data)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
   }
 };
 </script>
