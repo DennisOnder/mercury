@@ -13,6 +13,7 @@
     </div>
     <!-- Charts section - right hand side of the dashboard -->
     <div id="charts">
+      <canvas id="myChart" width="400" height="200"></canvas>
       <div id="footer"></div>
     </div>
   </div>
@@ -21,6 +22,8 @@
 <script lang="ts">
 import axios from "axios";
 import Api from "../services/Api";
+import * as Chart from "chart.js";
+import Keys from "../utils/Keys";
 import Navbar from "./layout/Navbar.vue";
 import io from "socket.io-client";
 import jwtDecode from 'jwt-decode';
@@ -77,7 +80,48 @@ export default {
     }
   },
   mounted() {
+  // fetch(`https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=10&api_key=${Keys.apiKey}`)
+  //   .then(res => res.json())
+  //   .then(json => console.log(json))
+  //   .catch(err => console.log(err));
   // Check for a valid JWT
+  const ctx = document.getElementById('myChart');
+  const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
   const token = localStorage.getItem('token');
   if (token) {
     const decoded = jwtDecode(token);
@@ -188,6 +232,12 @@ export default {
       background-color: #eee;
     }
   }
+}
+#charts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 
