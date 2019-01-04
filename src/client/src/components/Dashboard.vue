@@ -14,7 +14,6 @@
     <!-- Charts section - right hand side of the dashboard -->
     <div id="charts">
       <canvas id="myChart" width="400" height="200"></canvas>
-      <div id="footer"></div>
     </div>
   </div>
 </template>
@@ -214,23 +213,12 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  #footer {
-    z-index: 999;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 55px;
-    background-color: #9a1641;
-    -webkit-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
-    box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
-  }
 }
 #messageInput {
   position: fixed;
   z-index: 999;
   bottom: 0;
-  width: 50%;
+  width: 100%;
   height: 55px;
   display: flex;
   flex-direction: row;
