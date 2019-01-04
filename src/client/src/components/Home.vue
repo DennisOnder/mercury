@@ -159,6 +159,7 @@
 
 
 <script lang="ts">
+import jwtDecode from 'jwt-decode';
 export default {
   data() {
     return {};
@@ -177,7 +178,15 @@ export default {
       document.getElementById('homeContent').style.opacity = '1';
       document.getElementById('Spinner').style.opacity = '0';
     }, 2000);
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      if (decoded.exp < Date.now() / 1000) {
+        localStorage.removeItem('token');
+      } else {
+        window.location.replace('/#/dashboard');
+      }
+    }
   }
 };
 </script>
-

@@ -15,6 +15,11 @@
     <div id="charts">
       <canvas id="myChart" width="400" height="200"></canvas>
     </div>
+    <!-- Logout -->
+    <div class="logout">
+      <i class="far fa-user-circle"></i>
+      <p @mouseover="textChange" @mouseleave="textNormal" v-on:click="logout()">{{ this.username }}</p>
+    </div>
   </div>
 </template>
 
@@ -64,7 +69,8 @@ export default {
       messageText: '',
       username: '',
       cryptodata: {},
-      chart: ''
+      chart: '',
+      isLoggedIn: false
     }
   },
   methods: {
@@ -80,6 +86,17 @@ export default {
     saveInput: function(e: any): void {
       const el = e.target;
       this.messageText = el.value;
+    },
+    textChange: function(e: any): void {
+      e.target.innerHTML = 'Log out';
+    },
+    textNormal: function(e: any): void {
+      e.target.innerHTML = this.username;
+    },
+    logout() {
+      this.isLoggedIn = false;
+      localStorage.removeItem('token');
+      window.location.replace('/#/');
     }
   },
   mounted() {
@@ -91,6 +108,7 @@ export default {
       localStorage.removeItem('token');
       window.location.replace('/#/login');
     } else {
+      this.isLoggedIn = true;
       this.username = decoded.username;
       socket.emit('dashboardConnected');
     }
@@ -256,5 +274,24 @@ export default {
     }
   }
 }
+.logout {
+  z-index: 99999;
+  position: absolute;
+  top: 25px;
+  right: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  p {
+    cursor: pointer;
+    font-weight: bolder;
+    margin: 0;
+  }
+  i {
+    margin-right: 5px;
+    font-size: 22px;
+  }
+}
 </style>
-
