@@ -70,16 +70,17 @@ export default {
   },
   methods: {
     sendMessage: function() {
+      const input = document.getElementById('messageField');
       const newMessage = {
         name: this.username,
         message: this.messageText
       };
       socket.emit('newMessage', newMessage);
+      input.value = '';
     },
     saveInput: function(e: any): void {
       const el = e.target;
       this.messageText = el.value;
-      el.value = '';
     }
   },
   mounted() {
