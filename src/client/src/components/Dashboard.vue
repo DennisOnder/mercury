@@ -64,7 +64,8 @@ export default {
     return {
       messageText: '',
       username: '',
-      cryptodata: {}
+      cryptodata: {},
+      chart: ''
     }
   },
   methods: {
@@ -78,9 +79,24 @@ export default {
     saveInput: function(e: any): void {
       const el = e.target;
       this.messageText = el.value;
+      el.value = '';
     }
   },
   mounted() {
+  // Check for a valid JWT
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded = jwtDecode(token);
+    if (decoded.exp < Date.now() / 1000) {
+      localStorage.removeItem('token');
+      window.location.replace('/#/login');
+    } else {
+      this.username = decoded.username;
+      socket.emit('dashboardConnected');
+    }
+  } else {
+    window.location.replace('/#/login');
+  };
   // Get Bitcoin data 
   fetch(`https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=10&api_key=${Keys.apiKey}`)
     .then(res => res.json())
@@ -93,13 +109,16 @@ export default {
       .then(res => res.json())
       .then(json => {
         this.cryptodata = json;
+        this.chart.data.datasets[0].data = [];
+        this.chart.data.datasets[0].data.push(this.cryptodata.Data[5].close, this.cryptodata.Data[4].close, this.cryptodata.Data[3].close, this.cryptodata.Data[2].close, this.cryptodata.Data[1].close, this.cryptodata.Data[0].close);
+        this.chart.update();
       })
       .catch(err => console.log(err));
   }, 60000);
   // Chart setup
   setTimeout(() => {
     const ctx = document.getElementById('myChart');
-    const myChart = new Chart(ctx, {
+    this.chart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ["5 minutes ago", "4 minutes ago", "3 minutes ago", "2 minutes ago", "1 minute ago", "Current"],
@@ -136,34 +155,29 @@ export default {
       }
   });
   }, 1000);
-  // Check for a valid JWT
-  const token = localStorage.getItem('token');
-  if (token) {
-    const decoded = jwtDecode(token);
-    if (decoded.exp < Date.now() / 1000) {
-      localStorage.removeItem('token');
-      window.location.replace('/#/login');
-    } else {
-      this.username = decoded.username;
-    }
-  } else {
-    window.location.replace('/#/login');
-  }
-  socket.emit('dashboardConnected');
   }
 };
 </script>
 
 <style lang="scss">
 #chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: 2px 0px 41px -8px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 0px 41px -8px rgba(0,0,0,0.75);
+  box-shadow: 2px 0px 41px -8px rgba(0,0,0,0.75);
   position: absolute;
   overflow-y: auto;
-  bottom: 10%;
+  bottom: 0;
   left: 0;
   width: 50%;
-  height: 80%;
+  height: 100%;
   #messages {
-    margin: 0 25px;
+    margin: 10% 25px;
+    width: 80%;
+    height: 80%;
     .message {
       background-color: #9a1641;
       width: 50%;
@@ -176,37 +190,44 @@ export default {
         color: #fff;
         font-family: 'Montserrat', Arial, Helvetica, sans-serif;
       }
-    }
-    .userMessage {
-      background-color: #666;
-      float: right;
-      p {
-        color: #eee;
+      &:last-child {
+        margin-bottom: 100px;
       }
     }
-    &:last-child {
-      margin-bottom: 100px;
+    .userMessage {
+    background-color: #666;
+    float: right;
+    p {
+        color: #eee;
+      }
     }
   }
 }
 #charts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 50%;
-  height: 90%;
+  height: 100%;
   position: absolute;
   bottom: 0;
   right: 0;
-  // Remove this one
-  border-left: 1px solid black;
   #footer {
+    z-index: 999;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 55px;
     background-color: #9a1641;
+    -webkit-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
+    box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
   }
 }
 #messageInput {
   position: fixed;
+  z-index: 999;
   bottom: 0;
   width: 50%;
   height: 55px;
@@ -215,6 +236,9 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: #9a1641;
+  -webkit-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
+  box-shadow: 0px -1px 41px -8px rgba(0,0,0,0.75);
   input {
     outline: none;
     border: none;
@@ -242,12 +266,6 @@ export default {
       background-color: #eee;
     }
   }
-}
-#charts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 </style>
 
